@@ -9,6 +9,7 @@ window.onload = function() {
   cardGenerate();
 };
 
+/* Numbers and Suits of the Deck */
 const suits = ["spade", "heart", "diamond", "clover"];
 const numbers = [
   "2",
@@ -23,11 +24,12 @@ const numbers = [
   "J",
   "Q",
   "K",
-  "A",
+  "A"
 ];
 
 let cardArray = [];
 
+/* Random Card picker */
 function cardPick() {
   var numberSuit = Math.floor(Math.random() * 4);
   var numberNum = Math.floor(Math.random() * 13);
@@ -41,6 +43,7 @@ function cardPick() {
 
 console.log(cardPick());
 
+/* Receives an array with two elements as an input to modify the default card  [suit, value] */
 function cardGenerate() {
   var card = cardPick();
   var number = document.getElementById("number");
@@ -70,3 +73,38 @@ function cardGenerate() {
     number.innerHTML = card[1];
   }
 }
+
+var testArray = [
+  ["spade", "K"],
+  ["spade", "4"],
+  ["diamond", "10"],
+  ["diamond", "K"],
+  ["diamond", "1"],
+  ["heart", "2"]
+];
+
+function bubbleSortCards(array) {
+  for (var p of array) {
+    if (p[1] === "J") {
+      p[1] = "11";
+    } else if (p[1] === "Q") {
+      p[1] = "12";
+    } else if (p[1] === "K") {
+      p[1] = "13";
+    }
+    p[1] = parseInt(p[1]);
+  }
+
+  for (let i = 0; i < array.length - 1; i++) {
+    for (let j = 0; j < array.length - 1 - i; j++) {
+      console.log(array[j][1]);
+      const temp = array[j][1];
+      array[j][1] = array[j + 1][1];
+      array[j + 1][1] = temp;
+      console.log(array);
+    }
+  }
+  return array;
+}
+
+console.log(bubbleSortCards(testArray));
