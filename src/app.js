@@ -41,8 +41,6 @@ function cardPick() {
   return result;
 }
 
-console.log(cardPick());
-
 /* Receives an array with two elements as an input to modify the default card  [suit, value] */
 function cardGenerate() {
   var card = cardPick();
@@ -82,27 +80,38 @@ var testArray = [
   ["diamond", "1"],
   ["heart", "2"]
 ];
-
+/* REVIEW THIS */
 function bubbleSortCards(array) {
   for (var p of array) {
     if (p[1] === "J") {
-      p[1] = "11";
+      p[1] = 11;
     } else if (p[1] === "Q") {
-      p[1] = "12";
+      p[1] = 12;
     } else if (p[1] === "K") {
-      p[1] = "13";
+      p[1] = 13;
     }
     p[1] = parseInt(p[1]);
   }
 
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = 0; j < array.length - 1 - i; j++) {
-      console.log(array[j][1]);
-      const temp = array[j][1];
-      array[j][1] = array[j + 1][1];
-      array[j + 1][1] = temp;
-      console.log(array);
+      if (array[j][1] > array[j + 1][1]) {
+        const temp = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
+      }
     }
+  }
+
+  for (var p of array) {
+    if (p[1] === 11) {
+      p[1] = "J";
+    } else if (p[1] === 12) {
+      p[1] = "Q";
+    } else if (p[1] === 13) {
+      p[1] = "K";
+    }
+    p[1] = p[1].toString();
   }
   return array;
 }
