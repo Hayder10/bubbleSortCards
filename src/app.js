@@ -4,7 +4,7 @@ import "./style.css";
 
 /* Numbers and Suits of the Deck */
 const suits = ["spade", "heart", "diamond", "clover"];
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"];
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 /* Main Function */
 function generateCardArray(number) {
@@ -23,37 +23,37 @@ function cardPick() {
   result.push(numbers[numberNum]);
   return result;
 }
-/* BubbleSort */
+
+let bubbleNumber = -1;
+
 function bubbleSortCards(array) {
-  /* Special Characters Number Conversion */
-  for (var p of array) {
-    if (p[1] === "J") {
-      p[1] = 11;
-    } else if (p[1] === "Q") {
-      p[1] = 12;
-    } else if (p[1] === "K") {
-      p[1] = 13;
-    }
-    p[1] = parseInt(p[1]);
-  }
   /* Bubble Sort Algorithm */
-  for (let i = 0; i < array.length - 1; i++) {
+  console.log(array);
+  for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length - 1 - i; j++) {
       if (array[j][1] > array[j + 1][1]) {
-        const temp = array[j];
+        var aux = array[j];
         array[j] = array[j + 1];
-        array[j + 1] = temp;
+        array[j + 1] = aux;
+        bubbleNumber++;
+        renderCardArrayBubble(array);
       }
-      renderCardArrayBubble(array);
     }
   }
-  console.log(array);
-  console.log(10 > 9);
-  /* Return to Special Characters */
-  return array;
 }
 
 /* Rendering Cards Test */
+function toStringConverter(number) {
+  if (number === 11) {
+    return "J";
+  } else if (number === 12) {
+    return "Q";
+  } else if (number === 13) {
+    return "K";
+  } else {
+    return number;
+  }
+}
 
 function renderCardArray(array) {
   var cardID = 0;
@@ -78,22 +78,22 @@ function renderCardArray(array) {
       cardLowerIcon.style.color = "red";
       cardUpperIcon.innerHTML = "♥";
       cardLowerIcon.innerHTML = "♥";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     } else if (card[0] == "diamond") {
       cardUpperIcon.style.color = "red";
       cardNumber.style.color = "red";
       cardLowerIcon.style.color = "red";
       cardUpperIcon.innerHTML = "♦";
       cardLowerIcon.innerHTML = "♦";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     } else if (card[0] == "spade") {
       cardUpperIcon.innerHTML = "♠";
       cardLowerIcon.innerHTML = "♠";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     } else {
       cardUpperIcon.innerHTML = "♣";
       cardLowerIcon.innerHTML = "♣";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     }
 
     /* Card Pushing into HTML */
@@ -113,16 +113,10 @@ function renderCardArrayBubble(array) {
   bubbleDiv.style.display = "flex";
   bubbleDiv.style.justifyContent = "space-evenly";
   document.body.appendChild(bubbleDiv);
-  for (var p of array) {
-    if (p[1] === 11) {
-      p[1] = "J";
-    } else if (p[1] === 12) {
-      p[1] = "Q";
-    } else if (p[1] === 13) {
-      p[1] = "K";
-    }
-    p[1] = p[1].toString();
-  }
+  let bubbleId = document.createElement("h1");
+  bubbleId.innerHTML = bubbleNumber;
+  bubbleId.style.paddingTop = "170px";
+  bubbleDiv.appendChild(bubbleId);
   for (let card of array) {
     /* Unique DIV creation for card body*/
     const cardDiv = document.createElement("div");
@@ -144,22 +138,22 @@ function renderCardArrayBubble(array) {
       cardLowerIcon.style.color = "red";
       cardUpperIcon.innerHTML = "♥";
       cardLowerIcon.innerHTML = "♥";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     } else if (card[0] == "diamond") {
       cardUpperIcon.style.color = "red";
       cardNumber.style.color = "red";
       cardLowerIcon.style.color = "red";
       cardUpperIcon.innerHTML = "♦";
       cardLowerIcon.innerHTML = "♦";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     } else if (card[0] == "spade") {
       cardUpperIcon.innerHTML = "♠";
       cardLowerIcon.innerHTML = "♠";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     } else {
       cardUpperIcon.innerHTML = "♣";
       cardLowerIcon.innerHTML = "♣";
-      cardNumber.innerHTML = card[1];
+      cardNumber.innerHTML = toStringConverter(card[1]);
     }
 
     /* Card Pushing into HTML */
@@ -171,6 +165,29 @@ function renderCardArrayBubble(array) {
   }
 }
 
-let cardArray = generateCardArray(5);
-renderCardArray(cardArray);
-bubbleSortCards(cardArray);
+/* bubbleSortCards(cardArray); */
+
+var drawButton = document.querySelector("#drawButton");
+var sortButton = document.querySelector("#sortButton");
+var textBar = document.querySelector("#numberInput");
+var cardArray = [];
+
+drawButton.addEventListener("click", function() {
+  const input = document.getElementById("numberInput").value;
+  if (input === "") {
+    console.log("Invalid Input!");
+  } else {
+    if (document.querySelector("#cardDisplay").hasChildNodes()) {
+      document.querySelector("#cardDisplay").innerHTML = "";
+      cardArray = generateCardArray(input);
+      renderCardArray(cardArray);
+    } else {
+      cardArray = generateCardArray(input);
+      renderCardArray(cardArray);
+    }
+  }
+});
+
+sortButton.addEventListener("click", function() {
+  bubbleSortCards(cardArray);
+});
